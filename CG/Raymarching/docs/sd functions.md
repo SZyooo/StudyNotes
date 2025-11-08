@@ -35,13 +35,15 @@ struct box{
 
 float sdBox(vec3 p, box b)
 {
-    vec3 ap = abs(p);
-    return length(min(p, b.radius) - b.radius);
+    vec3 q = abs(p) - b;
+    return length(max(q, 0)) + min(max(q.x, q.y, q.z), 0);
 }
 ```
 
 **推导**
 
-![推导](../images/deduction_box.png){width=40%}
+<img src="../images/deduction_box.png" width="200" height="200" alt="图片加载失败时的提示文字">
+
+
 
 
