@@ -61,9 +61,7 @@ float sdBox(vec3 p, box b)
 我们将上面的两个距离综合起来。可以使用加法：
 
 <center>
-<code>
-d = length(max(p-d), 0) + min(max(p-r),0)
-</code>
+<code>d = length(max(p-d), 0) + min(max(p-r),0)</code>
 </center>
 
 
