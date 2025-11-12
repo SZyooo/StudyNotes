@@ -67,3 +67,7 @@ float sdBox(vec3 p, box b)
 
 如果`p`在box内部，则第一项为0；如果`p`在box外部，则第二项为0.
 
+
+# Reference
+
+[上面方程来自这里](https://iquilezles.org/articles/distfunctions/)
