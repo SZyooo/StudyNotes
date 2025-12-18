@@ -79,7 +79,34 @@ float fbm(vec N x, float H)
 
 上面的代码中，每一次迭代我们都将频率翻倍，因此使用了`numOctave`这个乐理上的名词。不过这不是固定的，我们可以采用其他的增长方法。例如我们可以将`f = pow(2,i)`改为`f = 2 * i`，由指数增长改为线性增长。
 
-## 自相似性
+## 三、另一个版本
+
+有的实现版本没有使用到上面的赫斯特指数，而是使用了另外的两个控制参数：
+
+- **Lacunarity** ：控制频率的增幅
+- **Gain** : 控制幅度的增幅
+
+下面是代码的实现：
+
+```glsl
+// Properties
+const int octaves = 1;
+float lacunarity = 2.0;
+float gain = 0.5;
+//
+// Initial values
+float amplitude = 0.5;
+float frequency = 1.;
+//
+// Loop of octaves
+for (int i = 0; i < octaves; i++) {
+	y += amplitude * noise(frequency*x);
+	frequency *= lacunarity;
+	amplitude *= gain;
+}
+```
+
+## 四、自相似性
 
 我们前面提到过，赫斯特指数**H**控制了曲线的自相似性（静态的，即某一时刻下）。在一维的`fBM()`下，我们水平放大曲线$U$倍，我们应该在垂直方向上放大多少倍$V$，让曲线经过这样水平和垂直放大之后和以前看上去一样？
 
@@ -87,4 +114,4 @@ float fbm(vec N x, float H)
 
 对于纯布朗运动来说，**H**的值为$0.5$，每次频率增加2倍的情况下，`G`的值为$2^{-\frac{1}{2}} = \frac{1}{\sqrt{2}}$.
 
-对于自然过程而言，变换具有更多的记忆性，所以自相似性更加各向同性。
+对于自然过程而言，变换具有更多的记忆性，所以自相似性更加各向同性，即**H**值会更大
