@@ -1,0 +1,14 @@
+[
+{
+  "directory": "D:/学习笔记/StudyNotes/网络/TCP-IP网络编程/code/mingw-build",
+  "command": "D:\\clang+llvm-20.1.5-x86_64-pc-windows-msvc\\clang+llvm-20.1.5-x86_64-pc-windows-msvc\\bin\\clang.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\server.dir\\hello_server_win.c.obj -c D:\\学习笔记\\StudyNotes\\网络\\TCP-IP网络编程\\code\\hello_server_win.c",
+  "file": "D:/学习笔记/StudyNotes/网络/TCP-IP网络编程/code/hello_server_win.c",
+  "output": "CMakeFiles/server.dir/hello_server_win.c.obj"
+},
+{
+  "directory": "D:/学习笔记/StudyNotes/网络/TCP-IP网络编程/code/mingw-build",
+  "command": "D:\\clang+llvm-20.1.5-x86_64-pc-windows-msvc\\clang+llvm-20.1.5-x86_64-pc-windows-msvc\\bin\\clang.exe   -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\client.dir\\hello_client_win.c.obj -c D:\\学习笔记\\StudyNotes\\网络\\TCP-IP网络编程\\code\\hello_client_win.c",
+  "file": "D:/学习笔记/StudyNotes/网络/TCP-IP网络编程/code/hello_client_win.c",
+  "output": "CMakeFiles/client.dir/hello_client_win.c.obj"
+}
+]
