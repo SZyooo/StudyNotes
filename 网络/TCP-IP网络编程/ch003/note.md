@@ -145,3 +145,102 @@ Linux和Windows都提供了下面的函数来在主机字节序和网络字节�
 
 > **[NOTE]** 是不是所有传入网络的数据都要手动进行转换？
 > 答案是不需要。除了在`sockaddr_in`结构体填充数据的时候需要转换，我们真正发送的数据是不需要的，这个过程是自动的
+
+## 四、网络地址的初始化与分配
+
+### 4.1 将字符串信息转换为网络字节序的整数型
+
+有一个接口可以将点分十进制表示的IP地址转为32位整形并且满足网络字节序，同时也支持对无效网络地址的检测：
+
+```C
+#include <arpa/inet.h>
+in_addr_t   //成功返回一个大端序的整形数值；失败返回INADDR_NONE
+inet_addr(const char* addr);
+```
+
+有另一个具有相同功能的接口：
+
+```C
+#include <arpa/inet.h>
+int                         //成功返回1，失败返回0
+inet_aton(                  
+    const char* string,     //点分十进制的地址 
+    struct in_addr* addr    //接受结果
+);
+```
+还有一个功能相反的函数：
+
+```C
+#include <arpa/inet.h>
+char* inet_ntoa(struct in_addr adr);
+```
+>**[!NOTE]**注意这里返回的是一个`char*`指针，但是没有要用户分配内存。用户使用之后应该理解将得到的结果保存到其他地址空间。
+
+### 4.2 网络地址初始化
+
+```C
+struct sockaddr_in addr;
+char* serv_ip = "211.217.168.13";
+char* serv_port = "9190";
+memset(&addr, 0, sizeof(addr));
+addr.sin_family = AF_INET;
+addr.sin_addr = inet_addr(serv_ip);
+addr.sin_port = htons(atos(serv_port));
+```
+
+### 4.3 INADDR_ANY
+
+这个地址的值为"0.0.0.0"，主要用在服务器绑定中。这个IP地址的含义是本机的任意IP。
+
+### 4.4 向套接字分配网络地址
+
+向套接字分配网络地址主要通过`bind`函数:
+
+```C
+#include <arpa/inet.h>
+int                             //成功返回0，失败返回-1
+bind(
+    int                 sockfd, //套接字文件描述符
+    struct sockaddr*    addr,   //记录IP、端口等信息
+    socklen_t           addrlen //第二个参数的大小
+);
+```
+
+## 五、Windows实现
+
+大部分函数、类型在Windows平台都有类似的定义，包括
+
+- `htons`、`htonl`
+- `inet_addr`、`inet_ntoa` (Windows下没有`inet_aton`)
+- `struct sockaddr_in`
+- ...
+
+此外，Windows还提供了额外的两个转换函数：
+
+```C
+#include <winsock2.h>
+//将字符串转为IP地址和端口信息
+INT                                         //成功返回0；失败返回SOCKET_ERROR
+WSAStringToAddress(
+    LPTSTR                  AddressString,  //"ip:port"格式的字符串
+    INT                     AddressFamily,  //第一个参数所属的地址族
+    LPWSAPROTOCOL_INFO      lpProtocolInfo, //协议提供者，默认为NULL
+    LPSOCKADDR              lpAddress,      //保存地址信息的结构体地址
+    LPINT                   lpAddressLength //第四个参数的结构体长度数值变量地址
+)
+```
+
+```C
+#include <winsock2.h>
+
+INT
+WSAAddressToString(                             //成功返回0；失败返回SOCKET_ERROR
+    LPSOCKADDR          lpsaAddress,            //需要转换的地址信息结构体变量地址
+    DWORD               dwAddressLength,        //第一个参数结构体的长度
+    LPWSAPROTOCOL_INFO  lpProtocolInfo,         //协议提供者，默认为NULL
+    LPSTR               lpszAddressString,      //保存转换结果的字符串地址值值
+    LPDWORD             lpdwAddressStringLength //保存地址信息的字符串长度
+)
+```
+
+
