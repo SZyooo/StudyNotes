@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\学习笔记\StudyNotes\网络\TCP-IP网络编程\code07\file_server.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\学习笔记\StudyNotes\网络\TCP-IP网络编程\code07\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{28AE3736-8355-3059-93B0-64617E3ED227}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

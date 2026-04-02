@@ -1,0 +1,10 @@
+^D:\学习笔记\STUDYNOTES\网络\TCP-IP网络编程\CODE2\BUILD\CMAKEFILES\787D76C944C094BC38F2924277C7E529\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/学习笔记/StudyNotes/网络/TCP-IP网络编程/code2 -BD:/学习笔记/StudyNotes/网络/TCP-IP网络编程/code2/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/学习笔记/StudyNotes/网络/TCP-IP网络编程/code2/build/ch006.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,10 @@
+^D:\学习笔记\STUDYNOTES\网络\TCP-IP网络编程\CODE08\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/学习笔记/StudyNotes/网络/TCP-IP网络编程/code08 -BD:/学习笔记/StudyNotes/网络/TCP-IP网络编程/code08/build --check-stamp-file D:/学习笔记/StudyNotes/网络/TCP-IP网络编程/code08/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

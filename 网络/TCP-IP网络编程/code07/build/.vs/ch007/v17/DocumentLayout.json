@@ -1,0 +1,80 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\code07\\build\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E0BF65FF-429F-341B-A42C-BBBF81A9D788}|server.vcxproj|D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\code07\\file_server.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{65388A9A-651A-3FC7-8CFA-397D1256DC8C}|client.vcxproj|D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\code07\\file_client.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{de1fc918-f32e-4dd7-a915-1792a051f26b}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{2d7728c2-de0a-45b5-99aa-89b609dfde73}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "file_client.c",
+              "DocumentMoniker": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\code07\\file_client.c",
+              "RelativeDocumentMoniker": "..\\file_client.c",
+              "ToolTip": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\code07\\file_client.c",
+              "RelativeToolTip": "..\\file_client.c",
+              "ViewState": "AgIAAB8AAAAAAAAAAAA3wDUAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-03-28T12:41:47.833Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "file_server.c",
+              "DocumentMoniker": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\code07\\file_server.c",
+              "RelativeDocumentMoniker": "..\\file_server.c",
+              "ToolTip": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\code07\\file_server.c*",
+              "RelativeToolTip": "..\\file_server.c*",
+              "ViewState": "AgIAACsAAAAAAAAAAAA0wDsAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-03-28T11:12:44.522Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
