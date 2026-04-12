@@ -1,4 +1,0 @@
-hello this is message store in server.txt
-line 1
-line 2
-line 3
