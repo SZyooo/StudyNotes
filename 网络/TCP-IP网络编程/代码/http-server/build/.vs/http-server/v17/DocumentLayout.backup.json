@@ -1,0 +1,120 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\\u4EE3\u7801\\http-server\\build\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{16A72A60-5E3B-35A1-8BA3-C7B84F9C76EA}|server.vcxproj|D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\\u4EE3\u7801\\http-server\\server.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16A72A60-5E3B-35A1-8BA3-C7B84F9C76EA}|server.vcxproj|D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\\u4EE3\u7801\\http-server\\CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\\u4EE3\u7801\\http-server\\server.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\vector||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\thread||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{de1fc918-f32e-4dd7-a915-1792a051f26b}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{2d7728c2-de0a-45b5-99aa-89b609dfde73}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "server.cpp",
+              "DocumentMoniker": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\\u4EE3\u7801\\http-server\\server.cpp",
+              "RelativeDocumentMoniker": "..\\server.cpp",
+              "ToolTip": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\\u4EE3\u7801\\http-server\\server.cpp",
+              "RelativeToolTip": "..\\server.cpp",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAACAAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-04-24T05:58:20.517Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "server.c",
+              "DocumentMoniker": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\\u4EE3\u7801\\http-server\\server.c",
+              "RelativeDocumentMoniker": "..\\server.c",
+              "ToolTip": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\\u4EE3\u7801\\http-server\\server.c",
+              "RelativeToolTip": "..\\server.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-04-24T05:57:42.685Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CMakeLists.txt",
+              "DocumentMoniker": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\\u4EE3\u7801\\http-server\\CMakeLists.txt",
+              "RelativeDocumentMoniker": "..\\CMakeLists.txt",
+              "ToolTip": "D:\\\u5B66\u4E60\u7B14\u8BB0\\StudyNotes\\\u7F51\u7EDC\\TCP-IP\u7F51\u7EDC\u7F16\u7A0B\\\u4EE3\u7801\\http-server\\CMakeLists.txt",
+              "RelativeToolTip": "..\\CMakeLists.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-04-24T05:57:16.745Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "vector",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\vector",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\vector",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-24T05:56:37.2Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "thread",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\thread",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\thread",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-24T05:53:16.484Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

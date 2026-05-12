@@ -1,0 +1,10 @@
+^D:\学习笔记\STUDYNOTES\网络\TCP-IP网络编程\代码\HTTP-SERVER\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/学习笔记/StudyNotes/网络/TCP-IP网络编程/代码/http-server -BD:/学习笔记/StudyNotes/网络/TCP-IP网络编程/代码/http-server/build --check-stamp-file D:/学习笔记/StudyNotes/网络/TCP-IP网络编程/代码/http-server/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

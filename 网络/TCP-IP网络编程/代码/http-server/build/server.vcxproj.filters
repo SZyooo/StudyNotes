@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\学习笔记\StudyNotes\网络\TCP-IP网络编程\代码\http-server\server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\学习笔记\StudyNotes\网络\TCP-IP网络编程\代码\http-server\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{1587F10B-7098-3EDD-BBEC-C71C5FBA40FA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

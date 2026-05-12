@@ -1,0 +1,10 @@
+^D:\学习笔记\STUDYNOTES\网络\TCP-IP网络编程\代码\HTTP-SERVER\BUILD\CMAKEFILES\B6211DA0F27AD461ABA20CB6DB725CBE\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/学习笔记/StudyNotes/网络/TCP-IP网络编程/代码/http-server -BD:/学习笔记/StudyNotes/网络/TCP-IP网络编程/代码/http-server/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/学习笔记/StudyNotes/网络/TCP-IP网络编程/代码/http-server/build/http-server.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
