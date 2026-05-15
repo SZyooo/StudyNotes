@@ -6,7 +6,7 @@
 
 ### 2.1 常见目录
 
-首先我们应该记住下面这些特殊的目录：
+这些是特殊的目录：
 
 - `.` : 当前目录
 - `..`: 前一级目录
@@ -298,7 +298,7 @@ lsattr [-adR] 文件或者目录
 当SGID被设置给一个目录的时候，带来的功能为：
 
 - 用户若对此目录具有r和x的权限，该用户能够进入该目录
-- 用户在此目录下的有效用户组将临时变为该目录的用户组
+- 用户在此目录下的有效用户组将临时变为该目录的用户组(这意味着创建的文件默认所属组为该目录的用户组，而不是创建者本身的用户组)
 
 #### 4.3.3 Sticky Bit
 
@@ -366,6 +366,8 @@ SBIT权限只能设置在“其他”组的x权限位置上，字符是t。一�
 
 #### 5.2.3 `find`
 
+> `find`默认会自动查找子目录
+
 ```bash
 find [PATH] [option] [action]
 ```
@@ -380,4 +382,47 @@ find [PATH] [option] [action]
 ```bash
 find / -mtime 0 #查找现在开始24小时之前被修改过的文件
 find /etc -newer /etc/passwd #查找/etc路径下比/etc/passwd更新的文件
+```
+
+##### 与使用者或者用户组名称有关的参数
+
+- `-uid n`: n为数字，是使用者的账号ID。UID记录在`/etc/passwd`里面
+- `-gid n`: n为数字，是用户组ID。GID记录在`/etc/group`下面
+- `-user name`: 指定查找用户`name`所拥有的文件
+- `-nouser` : 指定查找不属于任何用户的文件
+- `-nogroup` : 指定查找不属于任何组的文件
+
+```shell
+find /home -user dmtsai #查找属于dmtsai用户的文件
+find / -nouser          #查找/下面不属于任何用户的文件
+```
+> 不属于任何用户的文件在我们从网上下载文件或者删除用户的时候会出现
+
+##### 与文件权限或者名称有关的参数:
+
+- `-name filename` : 查找指定文件名的文件
+- `-size [+-]SIZE`: 查找比SIZE要大（+）或者小（-）的文件。这个SIZE的单位有`c`:byte，`k`:kb，`m`:MB。例如`-size +50k`表示比50KB要大的文件。
+    ```shell
+    find / -size 1M # 查找大小小于1MB的文件
+    ```
+- `type TYPE`: 指定查找文件的类型。常见类型有：
+  - `f` : 一般正规文件
+  - `b`/`c` : 一般设备文件
+  - `d`: 目录
+  - `l`: 链接文件
+  - `s`: 套接字文件
+  - `p`: 管道文件
+- `perm mode` : 查找权限属性值刚好是`mode`的文件
+- `perm -mode`: 查找权限必须**包含** `mode`的文件
+- `perm /mode` : 查找权限包含`mode`中`任意`权限的文件
+    ```shell
+    find /usr/bin /usr/sbin -perm /6000 #找出权限中包含SUID或者SGID的的文件
+    ```
+##### 对查找结果执行额外操作
+
+`-exec command`: `command`为命令，用来对查找到的目录列表执行该命令
+`-print` : 将查找结果打印出来，默认行为
+
+```shell
+find /usr/bin /usr/sbin -perm /7000 -exec ls -l {} \; #在两个目中查找包含SUID、SGID或者SBIT的文件，然后用 ls -l命令打印
 ```

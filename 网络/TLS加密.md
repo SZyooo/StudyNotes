@@ -39,6 +39,8 @@ HTTP是明文协议，HTTPS则是在HTTP的基础上引入了SSL/TLS协议。
 
 ## 三、本地部署CA
 
+> 更详细的本地本地配置CA和生成服务器key/crt请查看[本地为Redis生成key](./本地生成CA并且给Redis服务签发证书.md)
+
 我们在自己开发的服务器和客户端之间进行Websockets或者HTTPS通信的时候，可以引入TLS加密。我们不必向权威的CA申请签名，我们可以自己部署一个CA，然后将CA添加到我们的客户端认可的cA列表中。
 
 这里以OpenSSL库为例演示。
