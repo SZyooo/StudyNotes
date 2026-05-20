@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redis 基础类型命令全集</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #f5f6fa;
+            color: #2d3436;
+            line-height: 1.8;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 40px rgba(0,0,0,.08);
+            padding: 50px 60px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e17055;
+            border-bottom: 4px solid #e17055;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: #636e72;
+            font-size: .95rem;
+            margin-bottom: 36px;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2d3436;
+            margin: 48px 0 20px;
+            padding-left: 14px;
+            border-left: 4px solid #e17055;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h2 .badge {
+            font-size: .7rem;
+            font-weight: 500;
+            padding: 2px 12px;
+            border-radius: 20px;
+            color: #fff;
+        }
+
+        .type-intro {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            color: #636e72;
+            font-size: .95rem;
+        }
+        .type-intro code {
+            font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+            background: #f1f2f6;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #e17055;
+        }
+
+        /* ---- Command Table ---- */
+        .cmd-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .9rem;
+            display: block;
+            overflow-x: auto;
+        }
+        .cmd-table thead th {
+            background: #2d3436;
+            color: #dfe6e9;
+            text-align: left;
+            padding: 10px 14px;
+            font-weight: 600;
+            font-size: .82rem;
+            letter-spacing: .5px;
+        }
+        .cmd-table thead th:first-child { border-radius: 8px 0 0 0; }
+        .cmd-table thead th:last-child  { border-radius: 0 8px 0 0; }
+
+        .cmd-table tbody tr {
+            border-bottom: 1px solid #f1f2f6;
+            transition: background .15s;
+        }
+        .cmd-table tbody tr:hover { background: #f8f9fa; }
+        .cmd-table tbody tr:last-child { border-bottom: none; }
+
+        .cmd-table td {
+            padding: 10px 14px;
+            vertical-align: top;
+            line-height: 1.6;
+        }
+        .cmd-table td:first-child {
+            white-space: nowrap;
+            font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+            font-weight: 600;
+            color: #e17055;
+        }
+        .cmd-table td:nth-child(2) {
+            font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+            font-size: .82rem;
+            color: #636e72;
+            word-break: break-all;
+            min-width: 200px;
+        }
+        .cmd-table td:nth-child(3) {
+            font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+            font-size: .78rem;
+            color: #b2bec3;
+            white-space: nowrap;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: .72rem;
+            padding: 1px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+            margin-right: 4px;
+        }
+        .tag-write { background: #ffe0d6; color: #d63031; }
+        .tag-read  { background: #dff9fb; color: #0984e3; }
+        .tag-del   { background: #f1f2f6; color: #636e72; }
+        .tag-other { background: #f0f8e8; color: #27ae60; }
+
+        blockquote {
+            background: #fff3f0;
+            border-left: 4px solid #e17055;
+            border-radius: 0 8px 8px 0;
+            padding: 14px 20px;
+            margin: 24px 0 32px;
+            color: #636e72;
+            font-size: .92rem;
+        }
+        blockquote code {
+            background: #ffe0d6;
+            color: #d63031;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 720px) {
+            .container { padding: 24px 16px; }
+            h1 { font-size: 1.5rem; }
+            .cmd-table td, .cmd-table th { padding: 8px 10px; }
+        }
+        @media print {
+            body { background: #fff; padding: 0; }
+            .container { box-shadow: none; padding: 30px 40px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>Redis 基础类型命令全集</h1>
+    <p class="subtitle">涵盖 String、List、Set、Sorted Set、Hash 五种核心数据类型的所有命令</p>
+
+    <!-- ============================================================ -->
+    <!-- 1. String -->
+    <!-- ============================================================ -->
+    <h2>
+        <span>1. String（字符串）</span>
+        <span class="badge" style="background:#d63031;">写</span>
+        <span class="badge" style="background:#0984e3;">读</span>
+        <span class="badge" style="background:#636e72;">删</span>
+    </h2>
+
+    <div class="type-intro">
+        Redis 中最基本的数据类型，最大 512 MB。底层采用动态字符串（SDS），支持自动扩容。
+    </div>
+
+    <table class="cmd-table">
+        <thead>
+            <tr><th>命令</th><th>语法</th><th>复杂度</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>SET</td>
+                <td>SET key value [EX|PX|EXAT|PXAT|KEEPTTL] [NX|XX] [GET]</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>设置指定 key 的值。</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>GET key</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>获取指定 key 的值。</td>
+            </tr>
+            <tr>
+                <td>GETDEL</td>
+                <td>GETDEL key</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span><span class="tag tag-del">删</span>获取值后删除该 key（Redis 6.2+）。</td>
+            </tr>
+            <tr>
+                <td>GETEX</td>
+                <td>GETEX key [EX|PX|EXAT|PXAT|PERSIST]</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>获取值并同时设置过期时间（Redis 6.2+）。</td>
+            </tr>
+            <tr>
+                <td>SETNX</td>
+                <td>SETNX key value</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>key 不存在时设置值（SET if Not eXists）。返回 1 成功，0 失败。</td>
+            </tr>
+            <tr>
+                <td>SETEX</td>
+                <td>SETEX key seconds value</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>设置值的同时指定过期时间（秒）。</td>
+            </tr>
+            <tr>
+                <td>PSETEX</td>
+                <td>PSETEX key milliseconds value</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>设置值的同时指定过期时间（毫秒）。</td>
+            </tr>
+            <tr>
+                <td>MSET</td>
+                <td>MSET key value [key value ...]</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-write">写</span>批量设置多个 key-value。</td>
+            </tr>
+            <tr>
+                <td>MGET</td>
+                <td>MGET key [key ...]</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-read">读</span>批量获取多个 key 的值。</td>
+            </tr>
+            <tr>
+                <td>MSETNX</td>
+                <td>MSETNX key value [key value ...]</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-write">写</span>所有 key 都不存在时才批量设置（原子性）。</td>
+            </tr>
+            <tr>
+                <td>APPEND</td>
+                <td>APPEND key value</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>将 value 追加到原值的末尾，返回追加后长度。</td>
+            </tr>
+            <tr>
+                <td>GETRANGE</td>
+                <td>GETRANGE key start end</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-read">读</span>获取字符串的子串（包含 start 和 end，支持负数）。</td>
+            </tr>
+            <tr>
+                <td>SETRANGE</td>
+                <td>SETRANGE key offset value</td>
+                <td>O(1) 小值 / O(N) 大值</td>
+                <td><span class="tag tag-write">写</span>从指定偏移开始覆写字符串。</td>
+            </tr>
+            <tr>
+                <td>STRLEN</td>
+                <td>STRLEN key</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>返回字符串长度（字节数）。</td>
+            </tr>
+            <tr>
+                <td>INCR</td>
+                <td>INCR key</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>原子 +1。</td>
+            </tr>
+            <tr>
+                <td>INCRBY</td>
+                <td>INCRBY key increment</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>原子增加指定整数。</td>
+            </tr>
+            <tr>
+                <td>INCRBYFLOAT</td>
+                <td>INCRBYFLOAT key increment</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>原子增加指定浮点数。</td>
+            </tr>
+            <tr>
+                <td>DECR</td>
+                <td>DECR key</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>原子 -1。</td>
+            </tr>
+            <tr>
+                <td>DECRBY</td>
+                <td>DECRBY key decrement</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>原子减少指定整数。</td>
+            </tr>
+            <tr>
+                <td>LCS</td>
+                <td>LCS key1 key2 [LEN] [IDX] [MINMATCHLEN len] [WITHMATCHLEN]</td>
+                <td>O(N*M)</td>
+                <td><span class="tag tag-read">读</span>最长公共子串（Redis 7.0+）。</td>
+            </tr>
+            <tr>
+                <td>SUBSTR</td>
+                <td>SUBSTR key start end</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-read">读</span>同 GETRANGE（旧版，可能废弃）。</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- ============================================================ -->
+    <!-- 2. List -->
+    <!-- ============================================================ -->
+    <h2>
+        <span>2. List（列表）</span>
+        <span class="badge" style="background:#d63031;">写</span>
+        <span class="badge" style="background:#0984e3;">读</span>
+        <span class="badge" style="background:#636e72;">删</span>
+        <span class="badge" style="background:#e17055;">阻</span>
+    </h2>
+
+    <div class="type-intro">
+        基于链表实现，插入 / 删除快（O(1)），索引查找慢（O(N)）。常用于消息队列、最新列表等场景。
+    </div>
+
+    <table class="cmd-table">
+        <thead>
+            <tr><th>命令</th><th>语法</th><th>复杂度</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>LPUSH</td>
+                <td>LPUSH key element [element ...]</td>
+                <td>O(1) 每个元素</td>
+                <td><span class="tag tag-write">写</span>从头部（左侧）插入一个或多个元素。</td>
+            </tr>
+            <tr>
+                <td>LPUSHX</td>
+                <td>LPUSHX key element [element ...]</td>
+                <td>O(1) 每个元素</td>
+                <td><span class="tag tag-write">写</span>仅当 key 存在时从头部插入。</td>
+            </tr>
+            <tr>
+                <td>RPUSH</td>
+                <td>RPUSH key element [element ...]</td>
+                <td>O(1) 每个元素</td>
+                <td><span class="tag tag-write">写</span>从尾部（右侧）插入一个或多个元素。</td>
+            </tr>
+            <tr>
+                <td>RPUSHX</td>
+                <td>RPUSHX key element [element ...]</td>
+                <td>O(1) 每个元素</td>
+                <td><span class="tag tag-write">写</span>仅当 key 存在时从尾部插入。</td>
+            </tr>
+            <tr>
+                <td>LPOP</td>
+                <td>LPOP key [count]</td>
+                <td>O(N) count</td>
+                <td><span class="tag tag-del">删</span>移除并返回头部一个或多个元素。</td>
+            </tr>
+            <tr>
+                <td>RPOP</td>
+                <td>RPOP key [count]</td>
+                <td>O(N) count</td>
+                <td><span class="tag tag-del">删</span>移除并返回尾部一个或多个元素。</td>
+            </tr>
+            <tr>
+                <td>RPOPLPUSH</td>
+                <td>RPOPLPUSH source destination</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-other">移</span>移除 source 尾部元素并推到 destination 头部。</td>
+            </tr>
+            <tr>
+                <td>LMOVE</td>
+                <td>LMOVE source destination LEFT|RIGHT LEFT|RIGHT</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-other">移</span>原子弹出一个源端元素并推入目标端（Redis 6.2+ 替代 RPOPLPUSH）。</td>
+            </tr>
+            <tr>
+                <td>BLPOP</td>
+                <td>BLPOP key [key ...] timeout</td>
+                <td>O(1)</td>
+                <td><span class="tag" style="background:#ffe0d6;color:#d63031;">阻</span>LPOP 的阻塞版本，超时返回 nil。</td>
+            </tr>
+            <tr>
+                <td>BRPOP</td>
+                <td>BRPOP key [key ...] timeout</td>
+                <td>O(1)</td>
+                <td><span class="tag" style="background:#ffe0d6;color:#d63031;">阻</span>RPOP 的阻塞版本。</td>
+            </tr>
+            <tr>
+                <td>BRPOPLPUSH</td>
+                <td>BRPOPLPUSH source destination timeout</td>
+                <td>O(1)</td>
+                <td><span class="tag" style="background:#ffe0d6;color:#d63031;">阻</span>RPOPLPUSH 的阻塞版本。</td>
+            </tr>
+            <tr>
+                <td>BLMOVE</td>
+                <td>BLMOVE source destination LEFT|RIGHT LEFT|RIGHT timeout</td>
+                <td>O(1)</td>
+                <td><span class="tag" style="background:#ffe0d6;color:#d63031;">阻</span>LMOVE 的阻塞版本（Redis 6.2+）。</td>
+            </tr>
+            <tr>
+                <td>LLEN</td>
+                <td>LLEN key</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>获取列表长度。</td>
+            </tr>
+            <tr>
+                <td>LRANGE</td>
+                <td>LRANGE key start stop</td>
+                <td>O(S+N)</td>
+                <td><span class="tag tag-read">读</span>获取范围内元素（start/stop 支持负数）。</td>
+            </tr>
+            <tr>
+                <td>LINDEX</td>
+                <td>LINDEX key index</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-read">读</span>通过索引获取元素。</td>
+            </tr>
+            <tr>
+                <td>LSET</td>
+                <td>LSET key index element</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-write">写</span>通过索引设置元素值。</td>
+            </tr>
+            <tr>
+                <td>LINSERT</td>
+                <td>LINSERT key BEFORE|AFTER pivot element</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-write">写</span>在基准元素前后插入新元素。</td>
+            </tr>
+            <tr>
+                <td>LREM</td>
+                <td>LREM key count element</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-del">删</span>移除指定数量的匹配元素（count &gt; 0 从左，&lt; 0 从右，= 0 全部）。</td>
+            </tr>
+            <tr>
+                <td>LTRIM</td>
+                <td>LTRIM key start stop</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-del">删</span>裁剪区间外的元素。</td>
+            </tr>
+            <tr>
+                <td>LPOS</td>
+                <td>LPOS key element [RANK rank] [COUNT count] [MAXLEN len]</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-read">读</span>查找元素位置（Redis 6.0.6+）。</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- ============================================================ -->
+    <!-- 3. Set -->
+    <!-- ============================================================ -->
+    <h2>
+        <span>3. Set（集合）</span>
+        <span class="badge" style="background:#d63031;">写</span>
+        <span class="badge" style="background:#0984e3;">读</span>
+        <span class="badge" style="background:#636e72;">删</span>
+        <span class="badge" style="background:#27ae60;">集</span>
+    </h2>
+
+    <div class="type-intro">
+        无序、不重复的字符串集合。基于哈希表实现，支持交集、并集、差集运算。适合标签系统、好友关系等。
+    </div>
+
+    <table class="cmd-table">
+        <thead>
+            <tr><th>命令</th><th>语法</th><th>复杂度</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>SADD</td>
+                <td>SADD key member [member ...]</td>
+                <td>O(1) 每个元素</td>
+                <td><span class="tag tag-write">写</span>添加一个或多个元素。</td>
+            </tr>
+            <tr>
+                <td>SREM</td>
+                <td>SREM key member [member ...]</td>
+                <td>O(1) 每个元素</td>
+                <td><span class="tag tag-del">删</span>移除一个或多个元素。</td>
+            </tr>
+            <tr>
+                <td>SMEMBERS</td>
+                <td>SMEMBERS key</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-read">读</span>返回集合所有元素（慎用于大集合）。</td>
+            </tr>
+            <tr>
+                <td>SISMEMBER</td>
+                <td>SISMEMBER key member</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>判断元素是否存在。返回 1/0。</td>
+            </tr>
+            <tr>
+                <td>SCARD</td>
+                <td>SCARD key</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>获取集合元素数量。</td>
+            </tr>
+            <tr>
+                <td>SPOP</td>
+                <td>SPOP key [count]</td>
+                <td>O(1) / O(N) count</td>
+                <td><span class="tag tag-del">删</span>随机移除并返回一个或多个元素。</td>
+            </tr>
+            <tr>
+                <td>SRANDMEMBER</td>
+                <td>SRANDMEMBER key [count]</td>
+                <td>O(1) / O(N) count</td>
+                <td><span class="tag tag-read">读</span>随机返回元素（不移除）。count 为正不重复，为负可重复。</td>
+            </tr>
+            <tr>
+                <td>SMOVE</td>
+                <td>SMOVE source destination member</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-other">移</span>将元素从 source 原子移到 destination。</td>
+            </tr>
+            <tr>
+                <td>SDIFF</td>
+                <td>SDIFF key [key ...]</td>
+                <td>O(N)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>返回第一个集合与其余集合的差集。</td>
+            </tr>
+            <tr>
+                <td>SDIFFSTORE</td>
+                <td>SDIFFSTORE destination key [key ...]</td>
+                <td>O(N)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>差集结果存入 destination。</td>
+            </tr>
+            <tr>
+                <td>SINTER</td>
+                <td>SINTER key [key ...]</td>
+                <td>O(N*M)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>返回所有集合的交集。</td>
+            </tr>
+            <tr>
+                <td>SINTERSTORE</td>
+                <td>SINTERSTORE destination key [key ...]</td>
+                <td>O(N*M)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>交集结果存入 destination。</td>
+            </tr>
+            <tr>
+                <td>SUNION</td>
+                <td>SUNION key [key ...]</td>
+                <td>O(N)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>返回所有集合的并集。</td>
+            </tr>
+            <tr>
+                <td>SUNIONSTORE</td>
+                <td>SUNIONSTORE destination key [key ...]</td>
+                <td>O(N)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>并集结果存入 destination。</td>
+            </tr>
+            <tr>
+                <td>SSCAN</td>
+                <td>SSCAN key cursor [MATCH pattern] [COUNT count]</td>
+                <td>O(1) 每次调用</td>
+                <td><span class="tag tag-read">读</span>增量迭代集合元素。</td>
+            </tr>
+            <tr>
+                <td>SMISMEMBER</td>
+                <td>SMISMEMBER key member [member ...]</td>
+                <td>O(1) 每个元素</td>
+                <td><span class="tag tag-read">读</span>批量判断元素是否存在（Redis 6.2+）。</td>
+            </tr>
+            <tr>
+                <td>RANDOMKEY</td>
+                <td>RANDOMKEY</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>随机返回一个 key（通用命令，非 Set 专属）。</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- ============================================================ -->
+    <!-- 4. Sorted Set -->
+    <!-- ============================================================ -->
+    <h2>
+        <span>4. Sorted Set（有序集合 / ZSet）</span>
+        <span class="badge" style="background:#d63031;">写</span>
+        <span class="badge" style="background:#0984e3;">读</span>
+        <span class="badge" style="background:#636e72;">删</span>
+        <span class="badge" style="background:#27ae60;">集</span>
+    </h2>
+
+    <div class="type-intro">
+        每个元素关联一个 double 类型分数（score），按分数排序。底层使用跳跃表 + 哈希表实现。适合排行榜、延时队列等。
+    </div>
+
+    <table class="cmd-table">
+        <thead>
+            <tr><th>命令</th><th>语法</th><th>复杂度</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ZADD</td>
+                <td>ZADD key [NX|XX] [GT|LT] [CH] [INCR] score member [score member ...]</td>
+                <td>O(log N) 每个元素</td>
+                <td><span class="tag tag-write">写</span>添加或更新元素分数。</td>
+            </tr>
+            <tr>
+                <td>ZREM</td>
+                <td>ZREM key member [member ...]</td>
+                <td>O(log N) 每个元素</td>
+                <td><span class="tag tag-del">删</span>移除一个或多个元素。</td>
+            </tr>
+            <tr>
+                <td>ZCARD</td>
+                <td>ZCARD key</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>获取有序集合元素数量。</td>
+            </tr>
+            <tr>
+                <td>ZCOUNT</td>
+                <td>ZCOUNT key min max</td>
+                <td>O(log N)</td>
+                <td><span class="tag tag-read">读</span>统计分数在 [min, max] 内的元素数。</td>
+            </tr>
+            <tr>
+                <td>ZSCORE</td>
+                <td>ZSCORE key member</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>获取元素的分数。</td>
+            </tr>
+            <tr>
+                <td>ZINCRBY</td>
+                <td>ZINCRBY key increment member</td>
+                <td>O(log N)</td>
+                <td><span class="tag tag-write">写</span>原子增减元素分数。</td>
+            </tr>
+            <tr>
+                <td>ZRANK</td>
+                <td>ZRANK key member</td>
+                <td>O(log N)</td>
+                <td><span class="tag tag-read">读</span>返回元素正序排名（从 0 开始）。</td>
+            </tr>
+            <tr>
+                <td>ZREVRANK</td>
+                <td>ZREVRANK key member</td>
+                <td>O(log N)</td>
+                <td><span class="tag tag-read">读</span>返回元素倒序排名。</td>
+            </tr>
+            <tr>
+                <td>ZRANGE</td>
+                <td>ZRANGE key start stop [BYSCORE|BYLEX] [REV] [LIMIT offset count] [WITHSCORES]</td>
+                <td>O(log N + M)</td>
+                <td><span class="tag tag-read">读</span>返回指定排名范围内的元素（Redis 6.2+ 增强）。</td>
+            </tr>
+            <tr>
+                <td>ZREVRANGE</td>
+                <td>ZREVRANGE key start stop [WITHSCORES]</td>
+                <td>O(log N + M)</td>
+                <td><span class="tag tag-read">读</span>返回倒序排名范围内的元素（旧版，建议用 ZRANGE ... REV）。</td>
+            </tr>
+            <tr>
+                <td>ZRANGEBYSCORE</td>
+                <td>ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</td>
+                <td>O(log N + M)</td>
+                <td><span class="tag tag-read">读</span>按分数范围返回元素（旧版，建议用 ZRANGE ... BYSCORE）。</td>
+            </tr>
+            <tr>
+                <td>ZREVRANGEBYSCORE</td>
+                <td>ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset count]</td>
+                <td>O(log N + M)</td>
+                <td><span class="tag tag-read">读</span>按分数范围倒序返回（旧版）。</td>
+            </tr>
+            <tr>
+                <td>ZRANGEBYLEX</td>
+                <td>ZRANGEBYLEX key min max [LIMIT offset count]</td>
+                <td>O(log N + M)</td>
+                <td><span class="tag tag-read">读</span>按字典序范围返回（同分元素）。</td>
+            </tr>
+            <tr>
+                <td>ZREVRANGEBYLEX</td>
+                <td>ZREVRANGEBYLEX key max min [LIMIT offset count]</td>
+                <td>O(log N + M)</td>
+                <td><span class="tag tag-read">读</span>按字典序范围倒序返回。</td>
+            </tr>
+            <tr>
+                <td>ZLEXCOUNT</td>
+                <td>ZLEXCOUNT key min max</td>
+                <td>O(log N)</td>
+                <td><span class="tag tag-read">读</span>统计字典序范围内的元素数。</td>
+            </tr>
+            <tr>
+                <td>ZREMRANGEBYRANK</td>
+                <td>ZREMRANGEBYRANK key start stop</td>
+                <td>O(log N + M)</td>
+                <td><span class="tag tag-del">删</span>移除指定排名范围内的元素。</td>
+            </tr>
+            <tr>
+                <td>ZREMRANGEBYSCORE</td>
+                <td>ZREMRANGEBYSCORE key min max</td>
+                <td>O(log N + M)</td>
+                <td><span class="tag tag-del">删</span>移除指定分数范围内的元素。</td>
+            </tr>
+            <tr>
+                <td>ZREMRANGEBYLEX</td>
+                <td>ZREMRANGEBYLEX key min max</td>
+                <td>O(log N + M)</td>
+                <td><span class="tag tag-del">删</span>移除指定字典序范围内的元素。</td>
+            </tr>
+            <tr>
+                <td>ZPOPMIN</td>
+                <td>ZPOPMIN key [count]</td>
+                <td>O(log N * M)</td>
+                <td><span class="tag tag-del">删</span>移除并返回分数最小的 N 个元素。</td>
+            </tr>
+            <tr>
+                <td>ZPOPMAX</td>
+                <td>ZPOPMAX key [count]</td>
+                <td>O(log N * M)</td>
+                <td><span class="tag tag-del">删</span>移除并返回分数最大的 N 个元素。</td>
+            </tr>
+            <tr>
+                <td>BZPOPMIN</td>
+                <td>BZPOPMIN key [key ...] timeout</td>
+                <td>O(log N)</td>
+                <td><span class="tag" style="background:#ffe0d6;color:#d63031;">阻</span>ZPOPMIN 的阻塞版本。</td>
+            </tr>
+            <tr>
+                <td>BZPOPMAX</td>
+                <td>BZPOPMAX key [key ...] timeout</td>
+                <td>O(log N)</td>
+                <td><span class="tag" style="background:#ffe0d6;color:#d63031;">阻</span>ZPOPMAX 的阻塞版本。</td>
+            </tr>
+            <tr>
+                <td>ZUNIONSTORE</td>
+                <td>ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS w] [AGGREGATE SUM|MIN|MAX]</td>
+                <td>O(N) + O(log M)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>并集计算并存入 destination。</td>
+            </tr>
+            <tr>
+                <td>ZINTERSTORE</td>
+                <td>ZINTERSTORE destination numkeys key [key ...] [WEIGHTS w] [AGGREGATE SUM|MIN|MAX]</td>
+                <td>O(N*K) + O(log M)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>交集计算并存入 destination。</td>
+            </tr>
+            <tr>
+                <td>ZUNION</td>
+                <td>ZUNION numkeys key [key ...] [WEIGHTS w] [AGGREGATE SUM|MIN|MAX] [WITHSCORES]</td>
+                <td>O(N) + O(log M)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>并集计算，不存结果直接返回（Redis 7.0+）。</td>
+            </tr>
+            <tr>
+                <td>ZINTER</td>
+                <td>ZINTER numkeys key [key ...] [WEIGHTS w] [AGGREGATE SUM|MIN|MAX] [WITHSCORES]</td>
+                <td>O(N*K) + O(log M)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>交集计算，不存结果直接返回（Redis 7.0+）。</td>
+            </tr>
+            <tr>
+                <td>ZDIFFSTORE</td>
+                <td>ZDIFFSTORE destination numkeys key [key ...]</td>
+                <td>O(N) + O(log M)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>差集计算并存入 destination（Redis 6.2+）。</td>
+            </tr>
+            <tr>
+                <td>ZDIFF</td>
+                <td>ZDIFF numkeys key [key ...] [WITHSCORES]</td>
+                <td>O(N) + O(log M)</td>
+                <td><span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span>差集计算直接返回（Redis 7.0+）。</td>
+            </tr>
+            <tr>
+                <td>ZSCAN</td>
+                <td>ZSCAN key cursor [MATCH pattern] [COUNT count]</td>
+                <td>O(1) 每次调用</td>
+                <td><span class="tag tag-read">读</span>增量迭代有序集合。</td>
+            </tr>
+            <tr>
+                <td>ZRANDMEMBER</td>
+                <td>ZRANDMEMBER key [count [WITHSCORES]]</td>
+                <td>O(N) count</td>
+                <td><span class="tag tag-read">读</span>随机返回元素（Redis 6.2+）。</td>
+            </tr>
+            <tr>
+                <td>ZMSORE</td>
+                <td>ZMSORE key member [member ...]</td>
+                <td>O(1) 每个元素</td>
+                <td><span class="tag tag-read">读</span>批量获取元素分数（Redis 7.0+）。</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- ============================================================ -->
+    <!-- 5. Hash -->
+    <!-- ============================================================ -->
+    <h2>
+        <span>5. Hash（哈希）</span>
+        <span class="badge" style="background:#d63031;">写</span>
+        <span class="badge" style="background:#0984e3;">读</span>
+        <span class="badge" style="background:#636e72;">删</span>
+    </h2>
+
+    <div class="type-intro">
+        类似 Java 的 HashMap&lt;String, String&gt;，适合存储对象（如用户信息）。内部使用压缩列表或哈希表，小数据量时节省内存。
+    </div>
+
+    <table class="cmd-table">
+        <thead>
+            <tr><th>命令</th><th>语法</th><th>复杂度</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>HSET</td>
+                <td>HSET key field value [field value ...]</td>
+                <td>O(1) 每个 field</td>
+                <td><span class="tag tag-write">写</span>设置一个或多个 field 的值。</td>
+            </tr>
+            <tr>
+                <td>HSETNX</td>
+                <td>HSETNX key field value</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>仅当 field 不存在时设置值。</td>
+            </tr>
+            <tr>
+                <td>HGET</td>
+                <td>HGET key field</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>获取指定 field 的值。</td>
+            </tr>
+            <tr>
+                <td>HMSET</td>
+                <td>HMSET key field value [field value ...]</td>
+                <td>O(1) 每个 field</td>
+                <td><span class="tag tag-write">写</span>同 HSET（旧版，未来可能废弃）。</td>
+            </tr>
+            <tr>
+                <td>HMGET</td>
+                <td>HMGET key field [field ...]</td>
+                <td>O(1) 每个 field</td>
+                <td><span class="tag tag-read">读</span>批量获取多个 field 的值。</td>
+            </tr>
+            <tr>
+                <td>HGETALL</td>
+                <td>HGETALL key</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-read">读</span>返回所有 field-value 对（慎用于大 Hash）。</td>
+            </tr>
+            <tr>
+                <td>HINCRBY</td>
+                <td>HINCRBY key field increment</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>原子增加 field 的整数值。</td>
+            </tr>
+            <tr>
+                <td>HINCRBYFLOAT</td>
+                <td>HINCRBYFLOAT key field increment</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-write">写</span>原子增加 field 的浮点数值。</td>
+            </tr>
+            <tr>
+                <td>HDEL</td>
+                <td>HDEL key field [field ...]</td>
+                <td>O(1) 每个 field</td>
+                <td><span class="tag tag-del">删</span>删除一个或多个 field。</td>
+            </tr>
+            <tr>
+                <td>HEXISTS</td>
+                <td>HEXISTS key field</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>判断 field 是否存在。</td>
+            </tr>
+            <tr>
+                <td>HLEN</td>
+                <td>HLEN key</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>获取所有 field 的数量。</td>
+            </tr>
+            <tr>
+                <td>HKEYS</td>
+                <td>HKEYS key</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-read">读</span>返回所有 field 名。</td>
+            </tr>
+            <tr>
+                <td>HVALS</td>
+                <td>HVALS key</td>
+                <td>O(N)</td>
+                <td><span class="tag tag-read">读</span>返回所有 value。</td>
+            </tr>
+            <tr>
+                <td>HSTRLEN</td>
+                <td>HSTRLEN key field</td>
+                <td>O(1)</td>
+                <td><span class="tag tag-read">读</span>返回 field 对应值的字符串长度。</td>
+            </tr>
+            <tr>
+                <td>HRANDFIELD</td>
+                <td>HRANDFIELD key [count [WITHVALUES]]</td>
+                <td>O(N) count</td>
+                <td><span class="tag tag-read">读</span>随机返回一个或多个 field（Redis 6.2+）。</td>
+            </tr>
+            <tr>
+                <td>HSCAN</td>
+                <td>HSCAN key cursor [MATCH pattern] [COUNT count]</td>
+                <td>O(1) 每次调用</td>
+                <td><span class="tag tag-read">读</span>增量迭代 Hash 的 field-value 对。</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+        <strong>说明：</strong> 标签含义 ——
+        <span class="tag tag-write">写</span> 写入/修改，
+        <span class="tag tag-read">读</span> 读取/查询，
+        <span class="tag tag-del">删</span> 删除，
+        <span class="tag" style="background:#ffe0d6;color:#d63031;">阻</span> 阻塞，
+        <span class="tag" style="background:#f0f8e8;color:#27ae60;">集</span> 集合运算。
+        复杂度中的 N 为集合元素数量，M 为返回/操作元素数量。
+    </blockquote>
+
+</div>
+</body>
+</html>
