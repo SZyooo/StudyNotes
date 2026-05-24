@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "projects": [
+    {
+      "id": "proj_correct_ternary",
+      "name": "学生-导师-系 ER 图（正确约束）",
+      "elements": [
+        {
+          "id": 1,
+          "type": "entity",
+          "name": "学生",
+          "x": 100,
+          "y": 80,
+          "width": 140,
+          "height": 108,
+          "attributes": [
+            { "name": "学号", "isKey": true },
+            { "name": "姓名", "isKey": false },
+            { "name": "入学年份", "isKey": false }
+          ],
+          "isWeak": false
+        },
+        {
+          "id": 2,
+          "type": "entity",
+          "name": "导师",
+          "x": 400,
+          "y": 80,
+          "width": 140,
+          "height": 108,
+          "attributes": [
+            { "name": "导师编号", "isKey": true },
+            { "name": "姓名", "isKey": false },
+            { "name": "职称", "isKey": false }
+          ],
+          "isWeak": false
+        },
+        {
+          "id": 3,
+          "type": "entity",
+          "name": "系",
+          "x": 250,
+          "y": 280,
+          "width": 140,
+          "height": 108,
+          "attributes": [
+            { "name": "系编号", "isKey": true },
+            { "name": "系名", "isKey": false },
+            { "name": "办公地点", "isKey": false }
+          ],
+          "isWeak": false
+        },
+        {
+          "id": 4,
+          "type": "relationship",
+          "name": "指导",
+          "x": 250,
+          "y": 160,
+          "width": 100,
+          "height": 64,
+          "attributes": [
+            { "name": "指导开始日期", "isKey": false }
+          ]
+        }
+      ],
+      "connections": [
+        {
+          "id": 1,
+          "fromId": 1,
+          "toId": 4,
+          "fromCard": "0..n",
+          "toCard": "",
+          "note": "学生端：多"
+        },
+        {
+          "id": 2,
+          "fromId": 2,
+          "toId": 4,
+          "fromCard": "1",
+          "toCard": "",
+          "note": "导师端：1（箭头指向导师）"
+        },
+        {
+          "id": 3,
+          "fromId": 3,
+          "toId": 4,
+          "fromCard": "0..n",
+          "toCard": "",
+          "note": "系端：多"
+        }
+      ],
+      "nextId": 5,
+      "nextConnId": 4
+    }
+  ]
+}
